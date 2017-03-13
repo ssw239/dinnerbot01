@@ -7,6 +7,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Dialogs;
+using DinnerBot01.Dialogs;
 
 namespace DinnerBot01
 {
@@ -21,13 +23,16 @@ namespace DinnerBot01
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                // calculate something for us to return
-                int length = (activity.Text ?? string.Empty).Length;
+                #region original
+                //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                //// calculate something for us to return
+                //int length = (activity.Text ?? string.Empty).Length;
 
-                // return our reply to the user
-                Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
-                await connector.Conversations.ReplyToActivityAsync(reply);
+                //// return our reply to the user
+                //Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
+                //await connector.Conversations.ReplyToActivityAsync(reply);
+                #endregion
+                await Conversation.SendAsync(activity, () => new RootDialog());
             }
             else
             {
